@@ -49,6 +49,10 @@ public class Iso9660FileSystem extends AbstractBlockFileSystem<Iso9660FileEntry>
     }
 
     byte[] getBytes(Iso9660FileEntry entry) throws IOException {
+        if (entry.getSize() > Integer.MAX_VALUE) {
+            throw new IOException("Entry too large");
+        }
+
         int size = (int) entry.getSize();
 
         byte[] buf = new byte[size];
